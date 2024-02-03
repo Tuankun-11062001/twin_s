@@ -78,6 +78,7 @@ const blogController = {
   updateBlog: async (req, res) => {
     try {
       const body = req.body;
+      console.log(body);
       const blog = await BlogModel.findByIdAndUpdate(req.params.id, body);
       const blogs = await BlogModel.find();
 

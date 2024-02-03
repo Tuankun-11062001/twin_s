@@ -30,7 +30,9 @@ const productController = {
 
   getProductyById: async (req, res) => {
     try {
-      const category = await ProductModel.findById(req.params.id);
+      const category = await ProductModel.findById(req.params.id)
+        .populate("category", "title")
+        .populate("partner", "title");
       return res.status(200).json({
         message: "success",
         status: 200,
