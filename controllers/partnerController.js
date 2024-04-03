@@ -63,10 +63,13 @@ const partnerController = {
 
       const partnerNew = new PartnerModel(body);
       await partnerNew.save();
+
+      const partners = await PartnerModel.find();
+
       return res.status(200).json({
         message: "success",
         status: 200,
-        data: partnerNew,
+        data: partners,
       });
     } catch (error) {
       return res.status(500).json({

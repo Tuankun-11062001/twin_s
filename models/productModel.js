@@ -47,6 +47,15 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    season: {
+      type: String,
+    },
+    hotProduct: {
+      type: Boolean,
+    },
+    saleProduct: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,

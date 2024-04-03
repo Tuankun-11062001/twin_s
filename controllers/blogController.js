@@ -23,6 +23,26 @@ const blogController = {
   },
 
   //   =================================================================
+  //   blog latest
+  // =================================================================
+  getLatestBlog: async (req, res) => {
+    try {
+      const latestBlog = await BlogModel.find().sort("-date").limit(4);
+      return res.status(200).json({
+        message: "success",
+        status: 200,
+        data: latestBlog,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "can't get latest blog",
+        status: 500,
+        data: error.message,
+      });
+    }
+  },
+
+  //   =================================================================
   //   search blog
   // =================================================================
 

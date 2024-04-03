@@ -25,9 +25,77 @@ const productController = {
   },
 
   //   =================================================================
+  //   latest Products
+  // =================================================================
+  getLatestProduct: async (req, res) => {
+    try {
+      const products = await ProductModel.find()
+        .sort("-date")
+        .limit(4)
+        .populate("category", "title")
+        .populate("partner", "title");
+      return res.status(200).json({
+        message: "success",
+        status: 200,
+        data: products,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "can't get all Products",
+        status: 500,
+        data: error.message,
+      });
+    }
+  },
+
+  //   =================================================================
   //   search product
   // =================================================================
 
+  searchProduct: async (req, res) => {
+    try {
+      let query = {};
+
+      if (req.query.category) {
+        query.category = req.query.category;
+      }
+      if (req.query.partner) {
+        query.partner = req.query.partner;
+      }
+
+      if (req.query.season) {
+        query.season = req.query.season;
+      }
+
+      if (req.query.hotProduct) {
+        query.hotProduct = req.query.hotProduct;
+      }
+
+      if (req.query.saleProduct) {
+        query.saleProduct = req.query.saleProduct;
+      }
+
+      const product = await ProductModel.find(query)
+        .populate("category", "title")
+        .populate("partner", "title");
+
+      return res.status(200).json({
+        message: "success",
+        status: 200,
+        data: product,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "can't find product",
+        status: 500,
+        data: error.message,
+      });
+    }
+  },
+
+  //   =================================================================
+  //   search product
+  // =================================================================
   getProductyById: async (req, res) => {
     try {
       const category = await ProductModel.findById(req.params.id)
@@ -69,14 +137,14 @@ const productController = {
       const productNew = new ProductModel(body);
       await productNew.save();
 
-      const findProduct = await ProductModel.findById(productNew._id)
+      const products = await ProductModel.find()
         .populate("category", "title")
         .populate("partner", "title");
 
       return res.status(200).json({
         message: "success",
         status: 200,
-        data: findProduct,
+        data: products,
       });
     } catch (error) {
       return res.status(500).json({

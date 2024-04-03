@@ -63,10 +63,13 @@ const categoryController = {
 
       const categoryNew = new CategoryModel(body);
       await categoryNew.save();
+
+      const categories = await CategoryModel.find();
+
       return res.status(200).json({
         message: "success",
         status: 200,
-        data: categoryNew,
+        data: categories,
       });
     } catch (error) {
       return res.status(500).json({
