@@ -30,7 +30,7 @@ const productController = {
   getLatestProduct: async (req, res) => {
     try {
       const products = await ProductModel.find()
-        .sort("-date")
+        .sort({ _id: -1 })
         .limit(4)
         .populate("category", "title")
         .populate("partner", "title");
@@ -38,6 +38,37 @@ const productController = {
         message: "success",
         status: 200,
         data: products,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "can't get all Products",
+        status: 500,
+        data: error.message,
+      });
+    }
+  },
+
+  //   =================================================================
+  //   latest Products Season
+  // =================================================================
+  getLatestSeasonProduct: async (req, res) => {
+    try {
+      let query = {};
+
+      if (req.query.season) {
+        query.season = req.query.season;
+      }
+
+      const product = await ProductModel.find(query)
+        .sort({ _id: -1 })
+        .limit(4)
+        .populate("category", "title")
+        .populate("partner", "title");
+
+      return res.status(200).json({
+        message: "success",
+        status: 200,
+        data: product,
       });
     } catch (error) {
       return res.status(500).json({

@@ -3,6 +3,7 @@ const productController = require("../controllers/productController");
 
 productRouter.get("/", productController.getAllProduct);
 productRouter.get("/latest", productController.getLatestProduct);
+productRouter.get("/latestSeason", productController.getLatestSeasonProduct);
 productRouter.get("/search", productController.searchProduct);
 productRouter.post("/add", productController.addOneProduct);
 productRouter.get("/find/:id", productController.getProductyById);
