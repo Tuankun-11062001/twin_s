@@ -7,6 +7,7 @@ const productController = {
   getAllProduct: async (req, res) => {
     try {
       const products = await ProductModel.find()
+        .sort({ _id: -1 })
         .populate("category", "title")
         .populate("partner", "title");
 
@@ -107,6 +108,7 @@ const productController = {
       }
 
       const product = await ProductModel.find(query)
+        .sort({ _id: -1 })
         .populate("category", "title")
         .populate("partner", "title");
 
