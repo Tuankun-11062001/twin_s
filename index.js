@@ -10,6 +10,7 @@ const productRouter = require("./routers/productRoute");
 const blogRouter = require("./routers/blogRoute");
 const userRouter = require("./routers/userRoute");
 const visitorRouter = require("./routers/visitorRoute");
+const supportRouter = require("./routers/supportRoute");
 
 const app = express();
 app.use(cors());
@@ -25,5 +26,6 @@ app.use("/product", productRouter);
 app.use("/blog", blogRouter);
 app.use("/user", userRouter);
 app.use("/visitor", visitorRouter);
+app.use("/support", supportRouter);
 
 app.listen(3001, () => console.log("server listening on :3001"));
