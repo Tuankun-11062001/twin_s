@@ -6,10 +6,23 @@ const productController = {
   // =================================================================
   getAllProduct: async (req, res) => {
     try {
+      let page = parseInt(req.query.page) || 1;
+      const page_size = 10;
+      let skip = (page - 1) * page_size;
+
+      if (req.query.page) {
+        const productCount = await ProductModel.countDocuments();
+        if (skip >= productCount) {
+          throw new Error("This page is not found");
+        }
+      }
+
       const products = await ProductModel.find()
         .sort({ _id: -1 })
         .populate("category", "title")
-        .populate("partner", "title");
+        .populate("partner", "title")
+        .skip(skip)
+        .limit(page_size);
 
       return res.status(200).json({
         message: "success",
